@@ -1,0 +1,5 @@
+Sources/BitcoinBlockchain/bin/
+Sources/BitcoinBlockchain/obj/
+Sources/BitcoinBlockchainSample/obj/
+Sources/BitcoinBlockchainSample/bin/
+*.nupkg
