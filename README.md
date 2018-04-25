@@ -4,4 +4,4 @@
 https://github.com/ladimolnar/BitcoinDatabaseGenerator.git  
 https://github.com/ladimolnar/BitcoinBlockchain.git  
 # 详细介绍
-[比特币测量](../Doc/比特币测量.docx)
+[比特币测量](../../Doc/比特币测量.docx)
