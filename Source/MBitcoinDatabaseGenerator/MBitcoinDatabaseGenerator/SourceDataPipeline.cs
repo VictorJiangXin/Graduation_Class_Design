@@ -109,16 +109,30 @@ namespace BitcoinDatabaseGenerator
                     foreach (ParserData.TransactionInput parserTransactionInput in parserTransaction.Inputs)
                     {
                         long transactionInput = databaseIdSegmentManager.GetNextTransactionInputId();
-
-                        this.transactionInputDataSetBuffer.TransactionInput.AddTransactionInputRow(
-                            transactionInput,
-                            bitcoinTransactionId,
-                            parserTransactionInput.SourceTransactionHash.ToArray(),
-                            (int)parserTransactionInput.SourceTransactionOutputIndex,
-                            DBData.TransactionInput.SourceTransactionOutputIdUnknown,
-                            parserTransactionInput.InputScript.ToArray(),
-                            parserTransaction.Witness[WitnessIndex].WitnessStack.ToArray());
-                        WitnessIndex++;
+                        
+                        if(parserTransaction.IsSegWit && parserTransaction.Witness.Count != 0)
+                        {
+                            this.transactionInputDataSetBuffer.TransactionInput.AddTransactionInputRow(
+                                transactionInput,
+                                bitcoinTransactionId,
+                                parserTransactionInput.SourceTransactionHash.ToArray(),
+                                (int)parserTransactionInput.SourceTransactionOutputIndex,
+                                DBData.TransactionInput.SourceTransactionOutputIdUnknown,
+                                parserTransactionInput.InputScript.ToArray(),
+                                parserTransaction.Witness[WitnessIndex].WitnessStack.ToArray());
+                            WitnessIndex++;
+                        }
+                        else
+                        {
+                           this.transactionInputDataSetBuffer.TransactionInput.AddTransactionInputRow(
+                                transactionInput,
+                                bitcoinTransactionId,
+                                parserTransactionInput.SourceTransactionHash.ToArray(),
+                                (int)parserTransactionInput.SourceTransactionOutputIndex,
+                                DBData.TransactionInput.SourceTransactionOutputIdUnknown,
+                                parserTransactionInput.InputScript.ToArray(),
+                                null); 
+                        }
                     }
 
                     if (this.MakeDataTableAvailableIfLarge(this.transactionInputDataSetBuffer.TransactionInput))
