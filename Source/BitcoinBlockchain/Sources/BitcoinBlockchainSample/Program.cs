@@ -28,7 +28,6 @@ namespace BitcoinBlockchainSample
                 else
                 {
                        ParseBlockchainFiles(args[0], args.Length > 1 ? args[1] : null);
-                    //ParserOneFile(args[0]);
                 }
             }
 
@@ -117,23 +116,6 @@ namespace BitcoinBlockchainSample
                 blockFileStatistics.AddStatistics(1, block.Transactions.Count, block.TransactionInputsCount, block.TransactionOutputsCount);
                 overallStatistics.AddStatistics(1, block.Transactions.Count, block.TransactionInputsCount, block.TransactionOutputsCount);
 
-                int year = block.BlockHeader.BlockTimestamp.Year;
-                TransactionCounts[year-2009] += block.TransactionsCount;
-                foreach (Transaction transaction in block.Transactions)
-                {
-                    if (transaction.TransactionInputsCount<10 && transaction.TransactionOutputsCount<10)
-                    {
-                        TXInCount[year - 2009, transaction.TransactionInputsCount]++;
-                        TXOutCount[year - 2009, transaction.TransactionOutputsCount]++;
-                    }
-                    else
-                    {
-                        TXInCount[year - 2009, 0]++;
-                        TXOutCount[year - 2009, 0]++;
-                    }
-                    
-                }
-
             }
 
 
@@ -142,41 +124,6 @@ namespace BitcoinBlockchainSample
             Console.WriteLine("=================================================");
             Console.WriteLine("Overall statistics:");
             ReportBlockChainStatistics(overallStatistics);
-
-            string filePath = @"F:\Statistic.csv";
-            try
-            {
-                StreamWriter sw = File.CreateText(filePath);
-                sw.Write("NUM/ITEMS");
-                for (int i = 0; i < 10; i++)
-                    sw.Write(", {0}_TXIn_NumStatistic, {0}_TXIn_NumStatisticInPercent, {0}_TXOut_NumStatistic, {0}_TXOut_NumStatisticInPercent", 2009+i);
-                sw.WriteLine();
-                for(int i = 1; i < 10; i++)
-                {
-                    sw.Write("{0}", i);
-                    for(int j = 0; j < 10; j++)
-                    {
-                        sw.Write(", {0}, {1:000}%, {2:000}, {3}%", TXInCount[j,i], (float)(TXInCount[j,i]*100.0/ TransactionCounts[j]), TXOutCount[j,i], (float)(TXOutCount[j,i] * 100.0 / TransactionCounts[j]));
-                    }
-                    sw.WriteLine();
-                }
-                sw.Write("Other");
-                for (int i = 0; i < 10; i++)
-                {
-                    sw.Write(", {0}, {1:000}%, {2:000}, {3}%", TXInCount[i, 0], (float)(TXInCount[i, 0] * 100.0 / TransactionCounts[i]), TXOutCount[i, 0], (float)(TXOutCount[i, 0] * 100.0 / TransactionCounts[i]));
-                }
-                sw.WriteLine();
-                sw.Write("Total");
-                for (int i = 0; i < 10; i++)
-                {
-                    sw.Write(", {0}, 1, {0}, 1", TransactionCounts[i]);
-                }
-                sw.Close();
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
             
         }
 

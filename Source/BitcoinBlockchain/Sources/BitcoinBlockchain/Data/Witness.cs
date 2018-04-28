@@ -18,6 +18,6 @@ namespace BitcoinBlockchain.Data
         /// <summary>
         /// Witness data stack
         /// </summary>
-        public List<ByteArray> WitnessStack { get; set; }
+        public ByteArray WitnessStack { get; set; }
     }
 }

@@ -105,6 +105,7 @@ namespace BitcoinDatabaseGenerator
                 {
                     long bitcoinTransactionId = databaseIdSegmentManager.GetNextTransactionId();
 
+                    int WitnessIndex = 0;
                     foreach (ParserData.TransactionInput parserTransactionInput in parserTransaction.Inputs)
                     {
                         long transactionInput = databaseIdSegmentManager.GetNextTransactionInputId();
@@ -114,7 +115,10 @@ namespace BitcoinDatabaseGenerator
                             bitcoinTransactionId,
                             parserTransactionInput.SourceTransactionHash.ToArray(),
                             (int)parserTransactionInput.SourceTransactionOutputIndex,
-                            DBData.TransactionInput.SourceTransactionOutputIdUnknown);
+                            DBData.TransactionInput.SourceTransactionOutputIdUnknown,
+                            parserTransactionInput.InputScript.ToArray(),
+                            parserTransaction.Witness[WitnessIndex].WitnessStack.ToArray());
+                        WitnessIndex++;
                     }
 
                     if (this.MakeDataTableAvailableIfLarge(this.transactionInputDataSetBuffer.TransactionInput))

@@ -309,20 +309,31 @@ namespace BitcoinBlockchain.Parser
             return transactionOutput;
         }
 
+        //由于Witness中脚本不会太长，因此所有记录长度的字节都是1字节
         private static Witness ParseWitness(BlockMemoryStreamReader blockMemoryStreamReader)
         {
             Witness witness = new Witness();
-
-            int witnessStackCount = (int)blockMemoryStreamReader.ReadVariableLengthInteger();
-            witness.WitnessStack = new List<ByteArray>();
-
-            for (int witnessStackIndex = 0; witnessStackIndex < witnessStackCount; witnessStackIndex++)
+            byte[] mWiteness = new byte[1];
+            int CompactSize = (int)blockMemoryStreamReader.ReadVariableLengthInteger();
+            mWiteness[0] = (byte)CompactSize;
+            for(int items = 0; items < CompactSize; items++)
             {
-                int witnessSize = (int)blockMemoryStreamReader.ReadVariableLengthInteger();
-                witness.WitnessStack.Add(new ByteArray(blockMemoryStreamReader.ReadBytes(witnessSize)));
+                int ItemSize = (int)blockMemoryStreamReader.ReadVariableLengthInteger();
+                byte[] temp = new byte[ItemSize + 1];
+                temp[0] = (byte)ItemSize;
+                blockMemoryStreamReader.ReadBytes(ItemSize).CopyTo(temp, 1);
+                mWiteness = CombineByteArray(mWiteness, temp);
             }
-
+            witness.WitnessStack = new ByteArray(mWiteness);
             return witness;
+        }
+
+        private static byte[] CombineByteArray(byte[] a, byte[] b)
+        {
+            byte[] c = new byte[a.Length + b.Length];
+            a.CopyTo(c, 0);
+            b.CopyTo(c, a.Length);
+            return c;
         }
 
         /// <summary>
@@ -429,6 +440,7 @@ namespace BitcoinBlockchain.Parser
                 }
 
                 transaction.TransactionHash = new ByteArray(sha256.ComputeHash(hash1).ReverseByteArray());
+
             }
 
             return transaction;

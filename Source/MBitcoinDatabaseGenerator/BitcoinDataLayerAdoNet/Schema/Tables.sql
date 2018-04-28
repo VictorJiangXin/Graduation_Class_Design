@@ -91,15 +91,9 @@ CREATE TABLE TransactionInput (
     -- Set to -1 to indicate that this input refers to no previous output.
     SourceTransactionOutputIndex    INT								NULL,
 
-    -- This is the Id of the source transaction output.
-    -- Set to NULL when this input has no corresponding output.
-    -- Set to -1 in initial stages of the data transfer before the data from 
-    -- TransactionInputSource is processed.
-    -- The values in this column are calculated based on the links presented in
-    -- the original blockchain and that are saved in table TransactionInputSource.
-    -- This column is provided as a way to optimize queries where a join is
-    -- required between an input and its corresponding output. 
-    SourceTransactionId       BIGINT                          NULL
+    SourceTransactionId       BIGINT                          NULL,
+	ScriptSig				  VARBINARY (MAX)			      NULL,
+	WitnessStack			  VARBINARY (MAX)				  NULL
 );
 
 CREATE INDEX IX_TransactionInput_BitcoinTransactionId ON TransactionInput(BitcoinTransactionId)

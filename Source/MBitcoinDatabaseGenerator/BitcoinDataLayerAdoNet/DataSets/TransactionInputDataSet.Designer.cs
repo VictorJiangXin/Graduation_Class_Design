@@ -289,6 +289,10 @@ namespace BitcoinDataLayerAdoNet.DataSets {
             
             private global::System.Data.DataColumn columnSourceTransactionId;
             
+            private global::System.Data.DataColumn columnScriptSig;
+            
+            private global::System.Data.DataColumn columnWitnessStack;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public TransactionInputDataTable() {
@@ -364,6 +368,22 @@ namespace BitcoinDataLayerAdoNet.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn ScriptSigColumn {
+                get {
+                    return this.columnScriptSig;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn WitnessStackColumn {
+                get {
+                    return this.columnWitnessStack;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -399,14 +419,16 @@ namespace BitcoinDataLayerAdoNet.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public TransactionInputRow AddTransactionInputRow(long TransactionInputId, long BitcoinTransactionId, byte[] SourceTransactionHash, int SourceTransactionOutputIndex, long SourceTransactionId) {
+            public TransactionInputRow AddTransactionInputRow(long TransactionInputId, long BitcoinTransactionId, byte[] SourceTransactionHash, int SourceTransactionOutputIndex, long SourceTransactionId, byte[] ScriptSig, byte[] WitnessStack) {
                 TransactionInputRow rowTransactionInputRow = ((TransactionInputRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         TransactionInputId,
                         BitcoinTransactionId,
                         SourceTransactionHash,
                         SourceTransactionOutputIndex,
-                        SourceTransactionId};
+                        SourceTransactionId,
+                        ScriptSig,
+                        WitnessStack};
                 rowTransactionInputRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTransactionInputRow);
                 return rowTransactionInputRow;
@@ -441,6 +463,8 @@ namespace BitcoinDataLayerAdoNet.DataSets {
                 this.columnSourceTransactionHash = base.Columns["SourceTransactionHash"];
                 this.columnSourceTransactionOutputIndex = base.Columns["SourceTransactionOutputIndex"];
                 this.columnSourceTransactionId = base.Columns["SourceTransactionId"];
+                this.columnScriptSig = base.Columns["ScriptSig"];
+                this.columnWitnessStack = base.Columns["WitnessStack"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -456,6 +480,10 @@ namespace BitcoinDataLayerAdoNet.DataSets {
                 base.Columns.Add(this.columnSourceTransactionOutputIndex);
                 this.columnSourceTransactionId = new global::System.Data.DataColumn("SourceTransactionId", typeof(long), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnSourceTransactionId);
+                this.columnScriptSig = new global::System.Data.DataColumn("ScriptSig", typeof(byte[]), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnScriptSig);
+                this.columnWitnessStack = new global::System.Data.DataColumn("WitnessStack", typeof(byte[]), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnWitnessStack);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnTransactionInputId}, true));
                 this.columnTransactionInputId.AllowDBNull = false;
@@ -669,6 +697,38 @@ namespace BitcoinDataLayerAdoNet.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public byte[] ScriptSig {
+                get {
+                    try {
+                        return ((byte[])(this[this.tableTransactionInput.ScriptSigColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("表“TransactionInput”中列“ScriptSig”的值为 DBNull。", e);
+                    }
+                }
+                set {
+                    this[this.tableTransactionInput.ScriptSigColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public byte[] WitnessStack {
+                get {
+                    try {
+                        return ((byte[])(this[this.tableTransactionInput.WitnessStackColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("表“TransactionInput”中列“WitnessStack”的值为 DBNull。", e);
+                    }
+                }
+                set {
+                    this[this.tableTransactionInput.WitnessStackColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsSourceTransactionOutputIndexNull() {
                 return this.IsNull(this.tableTransactionInput.SourceTransactionOutputIndexColumn);
             }
@@ -689,6 +749,30 @@ namespace BitcoinDataLayerAdoNet.DataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetSourceTransactionIdNull() {
                 this[this.tableTransactionInput.SourceTransactionIdColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsScriptSigNull() {
+                return this.IsNull(this.tableTransactionInput.ScriptSigColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetScriptSigNull() {
+                this[this.tableTransactionInput.ScriptSigColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsWitnessStackNull() {
+                return this.IsNull(this.tableTransactionInput.WitnessStackColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetWitnessStackNull() {
+                this[this.tableTransactionInput.WitnessStackColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -856,6 +940,8 @@ namespace BitcoinDataLayerAdoNet.DataSets.TransactionInputDataSetTableAdapters {
             tableMapping.ColumnMappings.Add("SourceTransactionHash", "SourceTransactionHash");
             tableMapping.ColumnMappings.Add("SourceTransactionOutputIndex", "SourceTransactionOutputIndex");
             tableMapping.ColumnMappings.Add("SourceTransactionId", "SourceTransactionId");
+            tableMapping.ColumnMappings.Add("ScriptSig", "ScriptSig");
+            tableMapping.ColumnMappings.Add("WitnessStack", "WitnessStack");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
@@ -870,24 +956,28 @@ namespace BitcoinDataLayerAdoNet.DataSets.TransactionInputDataSetTableAdapters {
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SourceTransactionId", global::System.Data.SqlDbType.BigInt, 0, global::System.Data.ParameterDirection.Input, 0, 0, "SourceTransactionId", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = @"INSERT INTO [TransactionInput] ([TransactionInputId], [BitcoinTransactionId], [SourceTransactionHash], [SourceTransactionOutputIndex], [SourceTransactionId]) VALUES (@TransactionInputId, @BitcoinTransactionId, @SourceTransactionHash, @SourceTransactionOutputIndex, @SourceTransactionId);
-SELECT TransactionInputId, BitcoinTransactionId, SourceTransactionHash, SourceTransactionOutputIndex, SourceTransactionId FROM TransactionInput WHERE (TransactionInputId = @TransactionInputId)";
+            this._adapter.InsertCommand.CommandText = @"INSERT INTO [TransactionInput] ([TransactionInputId], [BitcoinTransactionId], [SourceTransactionHash], [SourceTransactionOutputIndex], [SourceTransactionId], [ScriptSig], [WitnessStack]) VALUES (@TransactionInputId, @BitcoinTransactionId, @SourceTransactionHash, @SourceTransactionOutputIndex, @SourceTransactionId, @ScriptSig, @WitnessStack);
+SELECT TransactionInputId, BitcoinTransactionId, SourceTransactionHash, SourceTransactionOutputIndex, SourceTransactionId, ScriptSig, WitnessStack FROM TransactionInput WHERE (TransactionInputId = @TransactionInputId)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@TransactionInputId", global::System.Data.SqlDbType.BigInt, 0, global::System.Data.ParameterDirection.Input, 0, 0, "TransactionInputId", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@BitcoinTransactionId", global::System.Data.SqlDbType.BigInt, 0, global::System.Data.ParameterDirection.Input, 0, 0, "BitcoinTransactionId", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SourceTransactionHash", global::System.Data.SqlDbType.VarBinary, 0, global::System.Data.ParameterDirection.Input, 0, 0, "SourceTransactionHash", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SourceTransactionOutputIndex", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "SourceTransactionOutputIndex", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SourceTransactionId", global::System.Data.SqlDbType.BigInt, 0, global::System.Data.ParameterDirection.Input, 0, 0, "SourceTransactionId", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ScriptSig", global::System.Data.SqlDbType.VarBinary, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ScriptSig", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@WitnessStack", global::System.Data.SqlDbType.VarBinary, 0, global::System.Data.ParameterDirection.Input, 0, 0, "WitnessStack", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE [TransactionInput] SET [TransactionInputId] = @TransactionInputId, [BitcoinTransactionId] = @BitcoinTransactionId, [SourceTransactionHash] = @SourceTransactionHash, [SourceTransactionOutputIndex] = @SourceTransactionOutputIndex, [SourceTransactionId] = @SourceTransactionId WHERE (([TransactionInputId] = @Original_TransactionInputId) AND ([BitcoinTransactionId] = @Original_BitcoinTransactionId) AND ([SourceTransactionHash] = @Original_SourceTransactionHash) AND ((@IsNull_SourceTransactionOutputIndex = 1 AND [SourceTransactionOutputIndex] IS NULL) OR ([SourceTransactionOutputIndex] = @Original_SourceTransactionOutputIndex)) AND ((@IsNull_SourceTransactionId = 1 AND [SourceTransactionId] IS NULL) OR ([SourceTransactionId] = @Original_SourceTransactionId)));
-SELECT TransactionInputId, BitcoinTransactionId, SourceTransactionHash, SourceTransactionOutputIndex, SourceTransactionId FROM TransactionInput WHERE (TransactionInputId = @TransactionInputId)";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE [TransactionInput] SET [TransactionInputId] = @TransactionInputId, [BitcoinTransactionId] = @BitcoinTransactionId, [SourceTransactionHash] = @SourceTransactionHash, [SourceTransactionOutputIndex] = @SourceTransactionOutputIndex, [SourceTransactionId] = @SourceTransactionId, [ScriptSig] = @ScriptSig, [WitnessStack] = @WitnessStack WHERE (([TransactionInputId] = @Original_TransactionInputId) AND ([BitcoinTransactionId] = @Original_BitcoinTransactionId) AND ([SourceTransactionHash] = @Original_SourceTransactionHash) AND ((@IsNull_SourceTransactionOutputIndex = 1 AND [SourceTransactionOutputIndex] IS NULL) OR ([SourceTransactionOutputIndex] = @Original_SourceTransactionOutputIndex)) AND ((@IsNull_SourceTransactionId = 1 AND [SourceTransactionId] IS NULL) OR ([SourceTransactionId] = @Original_SourceTransactionId)));
+SELECT TransactionInputId, BitcoinTransactionId, SourceTransactionHash, SourceTransactionOutputIndex, SourceTransactionId, ScriptSig, WitnessStack FROM TransactionInput WHERE (TransactionInputId = @TransactionInputId)";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@TransactionInputId", global::System.Data.SqlDbType.BigInt, 0, global::System.Data.ParameterDirection.Input, 0, 0, "TransactionInputId", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@BitcoinTransactionId", global::System.Data.SqlDbType.BigInt, 0, global::System.Data.ParameterDirection.Input, 0, 0, "BitcoinTransactionId", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SourceTransactionHash", global::System.Data.SqlDbType.VarBinary, 0, global::System.Data.ParameterDirection.Input, 0, 0, "SourceTransactionHash", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SourceTransactionOutputIndex", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "SourceTransactionOutputIndex", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SourceTransactionId", global::System.Data.SqlDbType.BigInt, 0, global::System.Data.ParameterDirection.Input, 0, 0, "SourceTransactionId", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ScriptSig", global::System.Data.SqlDbType.VarBinary, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ScriptSig", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@WitnessStack", global::System.Data.SqlDbType.VarBinary, 0, global::System.Data.ParameterDirection.Input, 0, 0, "WitnessStack", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_TransactionInputId", global::System.Data.SqlDbType.BigInt, 0, global::System.Data.ParameterDirection.Input, 0, 0, "TransactionInputId", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_BitcoinTransactionId", global::System.Data.SqlDbType.BigInt, 0, global::System.Data.ParameterDirection.Input, 0, 0, "BitcoinTransactionId", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SourceTransactionHash", global::System.Data.SqlDbType.VarBinary, 0, global::System.Data.ParameterDirection.Input, 0, 0, "SourceTransactionHash", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
@@ -911,8 +1001,8 @@ SELECT TransactionInputId, BitcoinTransactionId, SourceTransactionHash, SourceTr
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT   TransactionInputId, BitcoinTransactionId, SourceTransactionHash, SourceT" +
-                "ransactionOutputIndex, \r\n                SourceTransactionId\r\nFROM      Transact" +
-                "ionInput";
+                "ransactionOutputIndex, SourceTransactionId, \r\n                ScriptSig, Witness" +
+                "Stack\r\nFROM      TransactionInput";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -1018,7 +1108,7 @@ SELECT TransactionInputId, BitcoinTransactionId, SourceTransactionHash, SourceTr
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(long TransactionInputId, long BitcoinTransactionId, byte[] SourceTransactionHash, global::System.Nullable<int> SourceTransactionOutputIndex, global::System.Nullable<long> SourceTransactionId) {
+        public virtual int Insert(long TransactionInputId, long BitcoinTransactionId, byte[] SourceTransactionHash, global::System.Nullable<int> SourceTransactionOutputIndex, global::System.Nullable<long> SourceTransactionId, byte[] ScriptSig, byte[] WitnessStack) {
             this.Adapter.InsertCommand.Parameters[0].Value = ((long)(TransactionInputId));
             this.Adapter.InsertCommand.Parameters[1].Value = ((long)(BitcoinTransactionId));
             if ((SourceTransactionHash == null)) {
@@ -1038,6 +1128,18 @@ SELECT TransactionInputId, BitcoinTransactionId, SourceTransactionHash, SourceTr
             }
             else {
                 this.Adapter.InsertCommand.Parameters[4].Value = global::System.DBNull.Value;
+            }
+            if ((ScriptSig == null)) {
+                this.Adapter.InsertCommand.Parameters[5].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[5].Value = ((byte[])(ScriptSig));
+            }
+            if ((WitnessStack == null)) {
+                this.Adapter.InsertCommand.Parameters[6].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[6].Value = ((byte[])(WitnessStack));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -1059,7 +1161,7 @@ SELECT TransactionInputId, BitcoinTransactionId, SourceTransactionHash, SourceTr
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(long TransactionInputId, long BitcoinTransactionId, byte[] SourceTransactionHash, global::System.Nullable<int> SourceTransactionOutputIndex, global::System.Nullable<long> SourceTransactionId, long Original_TransactionInputId, long Original_BitcoinTransactionId, byte[] Original_SourceTransactionHash, global::System.Nullable<int> Original_SourceTransactionOutputIndex, global::System.Nullable<long> Original_SourceTransactionId) {
+        public virtual int Update(long TransactionInputId, long BitcoinTransactionId, byte[] SourceTransactionHash, global::System.Nullable<int> SourceTransactionOutputIndex, global::System.Nullable<long> SourceTransactionId, byte[] ScriptSig, byte[] WitnessStack, long Original_TransactionInputId, long Original_BitcoinTransactionId, byte[] Original_SourceTransactionHash, global::System.Nullable<int> Original_SourceTransactionOutputIndex, global::System.Nullable<long> Original_SourceTransactionId) {
             this.Adapter.UpdateCommand.Parameters[0].Value = ((long)(TransactionInputId));
             this.Adapter.UpdateCommand.Parameters[1].Value = ((long)(BitcoinTransactionId));
             if ((SourceTransactionHash == null)) {
@@ -1080,29 +1182,41 @@ SELECT TransactionInputId, BitcoinTransactionId, SourceTransactionHash, SourceTr
             else {
                 this.Adapter.UpdateCommand.Parameters[4].Value = global::System.DBNull.Value;
             }
-            this.Adapter.UpdateCommand.Parameters[5].Value = ((long)(Original_TransactionInputId));
-            this.Adapter.UpdateCommand.Parameters[6].Value = ((long)(Original_BitcoinTransactionId));
+            if ((ScriptSig == null)) {
+                this.Adapter.UpdateCommand.Parameters[5].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[5].Value = ((byte[])(ScriptSig));
+            }
+            if ((WitnessStack == null)) {
+                this.Adapter.UpdateCommand.Parameters[6].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[6].Value = ((byte[])(WitnessStack));
+            }
+            this.Adapter.UpdateCommand.Parameters[7].Value = ((long)(Original_TransactionInputId));
+            this.Adapter.UpdateCommand.Parameters[8].Value = ((long)(Original_BitcoinTransactionId));
             if ((Original_SourceTransactionHash == null)) {
                 throw new global::System.ArgumentNullException("Original_SourceTransactionHash");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[7].Value = ((byte[])(Original_SourceTransactionHash));
+                this.Adapter.UpdateCommand.Parameters[9].Value = ((byte[])(Original_SourceTransactionHash));
             }
             if ((Original_SourceTransactionOutputIndex.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[8].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[9].Value = ((int)(Original_SourceTransactionOutputIndex.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[8].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[9].Value = global::System.DBNull.Value;
-            }
-            if ((Original_SourceTransactionId.HasValue == true)) {
                 this.Adapter.UpdateCommand.Parameters[10].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[11].Value = ((long)(Original_SourceTransactionId.Value));
+                this.Adapter.UpdateCommand.Parameters[11].Value = ((int)(Original_SourceTransactionOutputIndex.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[10].Value = ((object)(1));
                 this.Adapter.UpdateCommand.Parameters[11].Value = global::System.DBNull.Value;
+            }
+            if ((Original_SourceTransactionId.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[12].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[13].Value = ((long)(Original_SourceTransactionId.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[12].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[13].Value = global::System.DBNull.Value;
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -1124,8 +1238,8 @@ SELECT TransactionInputId, BitcoinTransactionId, SourceTransactionHash, SourceTr
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(long BitcoinTransactionId, byte[] SourceTransactionHash, global::System.Nullable<int> SourceTransactionOutputIndex, global::System.Nullable<long> SourceTransactionId, long Original_TransactionInputId, long Original_BitcoinTransactionId, byte[] Original_SourceTransactionHash, global::System.Nullable<int> Original_SourceTransactionOutputIndex, global::System.Nullable<long> Original_SourceTransactionId) {
-            return this.Update(Original_TransactionInputId, BitcoinTransactionId, SourceTransactionHash, SourceTransactionOutputIndex, SourceTransactionId, Original_TransactionInputId, Original_BitcoinTransactionId, Original_SourceTransactionHash, Original_SourceTransactionOutputIndex, Original_SourceTransactionId);
+        public virtual int Update(long BitcoinTransactionId, byte[] SourceTransactionHash, global::System.Nullable<int> SourceTransactionOutputIndex, global::System.Nullable<long> SourceTransactionId, byte[] ScriptSig, byte[] WitnessStack, long Original_TransactionInputId, long Original_BitcoinTransactionId, byte[] Original_SourceTransactionHash, global::System.Nullable<int> Original_SourceTransactionOutputIndex, global::System.Nullable<long> Original_SourceTransactionId) {
+            return this.Update(Original_TransactionInputId, BitcoinTransactionId, SourceTransactionHash, SourceTransactionOutputIndex, SourceTransactionId, ScriptSig, WitnessStack, Original_TransactionInputId, Original_BitcoinTransactionId, Original_SourceTransactionHash, Original_SourceTransactionOutputIndex, Original_SourceTransactionId);
         }
     }
     
